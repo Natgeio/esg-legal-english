@@ -49,6 +49,7 @@
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.2s;
+            cursor: pointer;
         }
         nav a:hover, nav a.active { color: var(--accent); }
 
@@ -85,7 +86,6 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
         section { padding: 4rem 0; }
-
         .section-title {
             font-size: 1.5rem;
             font-weight: 700;
@@ -108,7 +108,7 @@
             border-radius: 12px;
             padding: 1.5rem;
             transition: all 0.3s;
-            cursor: default;
+            cursor: pointer;
         }
         .card:hover {
             background: var(--card-hover);
@@ -178,25 +178,14 @@
             color: var(--accent);
             font-weight: 600;
         }
-        .article-content tr:nth-child(even) { background: rgba(255,255,255,0.02); }
-        .article-content code {
-            background: rgba(255,255,255,0.06);
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-        }
-        .article-content hr {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 2rem 0;
-        }
-        .article-content strong { color: var(--accent); }
 
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1rem;
-            margin: 2rem 0;
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 0 2rem;
         }
         .stat-card {
             background: var(--card);
@@ -226,14 +215,6 @@
         }
         footer a { color: var(--accent); text-decoration: none; }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero { padding: 6rem 1.5rem 3rem; }
-            .grid { grid-template-columns: 1fr; }
-            nav ul { gap: 1rem; padding: 0; }
-            nav { padding: 0 1rem; }
-        }
-
         .tab-bar {
             display: flex;
             gap: 0.5rem;
@@ -252,25 +233,35 @@
         }
         .tab-btn:hover { border-color: var(--accent); color: var(--text); }
         .tab-btn.active { background: rgba(16, 185, 129, 0.15); border-color: var(--accent); color: var(--accent); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        ul { padding-left: 1.5rem; margin: 0.75rem 0; }
+        li { margin-bottom: 0.3rem; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero { padding: 6rem 1.5rem 3rem; }
+            .grid { grid-template-columns: 1fr; }
+            nav ul { gap: 1rem; padding: 0; }
+            nav { padding: 0 1rem; }
+        }
     </style>
 </head>
 <body>
 
 <nav>
     <ul>
-        <li><a href="#" class="active" onclick="showTab('home')">🏠 首页</a></li>
-        <li><a href="#" onclick="showTab('articles')">📄 学习日报</a></li>
-        <li><a href="#" onclick="showTab('terms')">📝 术语表</a></li>
-        <li><a href="#" onclick="showTab('about')">ℹ️ 关于</a></li>
+        <li><a class="active" onclick="showPage('home')">🏠 首页</a></li>
+        <li><a onclick="showPage('articles')">📄 学习日报</a></li>
+        <li><a onclick="showPage('terms')">📝 术语表</a></li>
+        <li><a onclick="showPage('about')">ℹ️ 关于</a></li>
     </ul>
 </nav>
 
-<div class="container">
-
-<!-- ============ HOME ============ -->
-<div id="tab-home" class="tab-content active">
+<!-- ===== PAGE: HOME ===== -->
+<div id="page-home" class="page active">
     <div class="hero">
         <div class="badge">📚 持续更新中</div>
         <h1>ESG 法律英语学习</h1>
@@ -278,79 +269,57 @@
     </div>
 
     <div class="stats">
-        <div class="stat-card">
-            <div class="num">4</div>
-            <div class="label">学习日报</div>
-        </div>
-        <div class="stat-card">
-            <div class="num">60+</div>
-            <div class="label">法律术语</div>
-        </div>
-        <div class="stat-card">
-            <div class="num">8+</div>
-            <div class="label">长难句拆解</div>
-        </div>
-        <div class="stat-card">
-            <div class="num">每周2期</div>
-            <div class="label">更新频率</div>
-        </div>
+        <div class="stat-card"><div class="num">4</div><div class="label">学习日报</div></div>
+        <div class="stat-card"><div class="num">60+</div><div class="label">法律术语</div></div>
+        <div class="stat-card"><div class="num">8+</div><div class="label">长难句拆解</div></div>
+        <div class="stat-card"><div class="num">每周2期</div><div class="label">更新频率</div></div>
     </div>
 
-    <section>
-        <div class="section-title"><span class="icon">📄</span> 最新学习日报</div>
-        <div class="grid">
-            <div class="card" onclick="showTab('articles'); showArticle(4)" style="cursor: pointer;">
-                <div class="date">2026-06-04</div>
-                <h3>ESG 法律英语学习日报 #4</h3>
-                <p>最新一期 ESG 法律英语学习内容，涵盖最新的 ESG 监管动态和法律术语分析。</p>
-                <div class="tags">
-                    <span class="tag">ESG</span>
-                    <span class="tag green">法律英语</span>
+    <div class="container">
+        <section>
+            <div class="section-title"><span class="icon">📄</span> 最新学习日报</div>
+            <div class="grid">
+                <div class="card" onclick="goToArticle(4)">
+                    <div class="date">2026-06-04</div>
+                    <h3>ESG 法律英语学习日报 #4</h3>
+                    <p>最新一期 ESG 法律英语学习内容，涵盖最新的 ESG 监管动态和法律术语分析。</p>
+                    <div class="tags"><span class="tag">ESG</span><span class="tag green">法律英语</span></div>
+                </div>
+                <div class="card" onclick="goToArticle(1)">
+                    <div class="date">2026-05-30</div>
+                    <h3>ESG Shifting Tides</h3>
+                    <p>哈佛法学院公司治理论坛文章分析。ESG叙事从主流到争议的转变，S&P 500公司ESG术语首次下降。</p>
+                    <div class="tags"><span class="tag">Harvard Law</span><span class="tag purple">ESG叙事</span></div>
+                </div>
+                <div class="card" onclick="goToArticle(2)">
+                    <div class="date">2026-05-30</div>
+                    <h3>Sustainability: Scarce Signals</h3>
+                    <p>晨星分析2025年ESG股东决议趋势。获30%以上支持率的可持续决议数量骤减。</p>
+                    <div class="tags"><span class="tag">股东决议</span><span class="tag green">可持续</span></div>
+                </div>
+                <div class="card" onclick="goToArticle(3)">
+                    <div class="date">2026-05-30</div>
+                    <h3>ESG 法律英语日报 #3</h3>
+                    <p>第三期 ESG 法律英语学习内容，持续追踪最新 ESG 法律动态。</p>
+                    <div class="tags"><span class="tag">ESG</span><span class="tag purple">法律英语</span></div>
                 </div>
             </div>
-            <div class="card" onclick="showTab('articles'); showArticle(1)" style="cursor: pointer;">
-                <div class="date">2026-05-30</div>
-                <h3>ESG Shifting Tides</h3>
-                <p>哈佛法学院公司治理论坛文章分析。ESG叙事从主流到争议的转变，S&P 500公司ESG术语首次下降。</p>
-                <div class="tags">
-                    <span class="tag">Harvard Law</span>
-                    <span class="tag purple">ESG叙事</span>
-                </div>
-            </div>
-            <div class="card" onclick="showTab('articles'); showArticle(2)" style="cursor: pointer;">
-                <div class="date">2026-05-30</div>
-                <h3>Sustainability: Scarce Signals</h3>
-                <p>晨星分析2025年ESG股东决议趋势。获30%以上支持率的可持续决议数量骤减。</p>
-                <div class="tags">
-                    <span class="tag">股东决议</span>
-                    <span class="tag green">可持续</span>
-                </div>
-            </div>
-            <div class="card" onclick="showTab('articles'); showArticle(3)" style="cursor: pointer;">
-                <div class="date">2026-05-30</div>
-                <h3>ESG 法律英语日报 #3</h3>
-                <p>第三期 ESG 法律英语学习内容，持续追踪最新 ESG 法律动态。</p>
-                <div class="tags">
-                    <span class="tag">ESG</span>
-                    <span class="tag purple">法律英语</span>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section>
-        <div class="section-title"><span class="icon">📌</span> 学习系统说明</div>
-        <div class="article-content">
-            <p><strong>定时推送</strong>：每周一、四 早8:00 微信自动推送</p>
-            <p><strong>内容来源</strong>：Harvard Law School Forum on Corporate Governance、UN PRI、LSE ESG研究、其他国际ESG法律文献</p>
-            <p><strong>每期包含</strong>：英文原文精选段落 → 中文翻译 → 法律术语表 → LSAT长难句拆解</p>
-        </div>
-    </section>
+        <section>
+            <div class="section-title"><span class="icon">📌</span> 学习系统说明</div>
+            <div class="article-content">
+                <p><strong>定时推送</strong>：每周一、四 早8:00 微信自动推送</p>
+                <p><strong>内容来源</strong>：Harvard Law School Forum on Corporate Governance、UN PRI、LSE ESG研究、其他国际ESG法律文献</p>
+                <p><strong>每期包含</strong>：英文原文精选段落 → 中文翻译 → 法律术语表 → LSAT长难句拆解</p>
+            </div>
+        </section>
+    </div>
 </div>
 
-<!-- ============ ARTICLES ============ -->
-<div id="tab-articles" class="tab-content">
-    <div style="padding-top: 6rem;">
+<!-- ===== PAGE: ARTICLES ===== -->
+<div id="page-articles" class="page">
+    <div style="padding-top: 6rem;" class="container">
         <div class="section-title"><span class="icon">📄</span> 全部学习日报</div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="showArticle(1)">日报 #1 ESG Shifting Tides</button>
@@ -359,16 +328,12 @@
             <button class="tab-btn" onclick="showArticle(4)">日报 #4</button>
         </div>
 
-        <!-- Article 1 -->
-        <div id="article-1" class="article-content article-tab active">
+        <div id="art-1" class="article-content art-page active">
             <h2>ESG Shifting Tides</h2>
             <p style="color: var(--text-dim); font-size: 0.85rem;">2026-05-30 | 来源: Harvard Law School Forum on Corporate Governance</p>
-
             <h2>📖 英文原文摘要</h2>
             <blockquote>The Environmental, Social, and Governance ("ESG") framework, once a dominant feature across corporate governance and sustainable finance, has declined in prominence, retreating from both corporate disclosures and investor focus. This report quantifies that retreat through two lenses: (1) the elimination and re-branding of ESG terminology in S&P 500 and Fortune 1000 DEF 14A proxy and Form 10-K filings, and (2) the sustained capital exodus from ESG-designated mutual funds and ETFs.</blockquote>
-
             <blockquote>At the disclosure level, aggregate "sustainability" keyword mentions in S&P 500 DEF 14A proxy filings peaked in 2024 and registered their first decline in 2025. Analysis of recent 2026 proxy filings indicates that the ESG narrative decline is accelerating.</blockquote>
-
             <h2>📝 法律术语表（精选）</h2>
             <table>
                 <tr><th>术语</th><th>中文</th><th>释义</th></tr>
@@ -376,50 +341,36 @@
                 <tr><td>disclosure</td><td>信息披露</td><td>依法或自愿公开信息的行为</td></tr>
                 <tr><td>governance</td><td>治理</td><td>公司管理和控制体系</td></tr>
                 <tr><td>sustainability</td><td>可持续性</td><td>长期环境和社会可持续能力</td></tr>
-                <tr><td>proxy filings</td><td>代理投票文件</td><td>上市公司提交给SEC的股东委托书</td></tr>
+                <tr><td>proxy filings</td><td>代理投票文件</td><td>上市公司提交的股东委托书文件</td></tr>
                 <tr><td>capital exodus</td><td>资本外流</td><td>资金大规模撤离</td></tr>
-                <tr><td>fiduciary context</td><td>信义义务语境</td><td>涉及受托责任的法律场景</td></tr>
+                <tr><td>fiduciary</td><td>信义义务</td><td>涉及受托责任的法律场景</td></tr>
             </table>
-
             <h2>🎯 LSAT长难句拆解</h2>
             <p><strong>句子1（41词）：</strong></p>
             <blockquote>This report quantifies that retreat through two lenses: (1) the elimination and re-branding of ESG terminology in S&P 500 and Fortune 1000 DEF 14A proxy and Form 10-K filings, and (2) the sustained capital exodus from ESG-designated mutual funds and ETFs.</blockquote>
-            <p><strong>主句：</strong> This report quantifies that retreat through two lenses<br>
-            <strong>中文翻译：</strong> 本报告通过两个维度量化了这一撤退：(1)标普500和财富1000公司在其DEF 14A代理投票文件和10-K年报中消除和重新命名ESG术语，(2)资金持续从ESG指定共同基金和ETF中撤离。</p>
-
+            <p><strong>中文翻译：</strong> 本报告通过两个维度量化了这一撤退：(1)标普500和财富1000公司消除和重新命名ESG术语，(2)资金持续从ESG指定基金中撤离。</p>
             <p><strong>句子2（30词）：</strong></p>
             <blockquote>Together, these illuminate the impact of recent regulatory, political, and market developments on the ESG framework, indicating that the tides are turning against ESG narratives as well as ESG investment.</blockquote>
             <p><strong>中文翻译：</strong> 综合来看，这些数据揭示了近期监管、政治和市场发展对ESG框架的影响，表明潮流正在转向，不仅针对ESG投资，也针对ESG叙事本身。</p>
-
-            <h2>💡 核心要点</h2>
-            <p>当前ESG领域正经历显著的回调——从美国上市公司的信息披露到投资者资金流入都在收缩。核心驱动因素是反ESG立法、养老金撤资指令，以及法院对ESG信义义务合宪性的质疑。</p>
         </div>
 
-        <!-- Article 2 -->
-        <div id="article-2" class="article-content article-tab">
+        <div id="art-2" class="article-content art-page">
             <h2>Sustainability: Scarce Signals</h2>
             <p style="color: var(--text-dim); font-size: 0.85rem;">2026-05-30 | 来源: Morningstar / 晨星</p>
-
             <blockquote>Although we note that this average cannot fall below 30%, it illustrates that recent market sentiment toward sustainability in the US is largely reflected by the shrinking population size of significant resolutions, and by the redefinition of shareholder engagement itself.</blockquote>
-
-            <h2>📝 法律术语表（精选）</h2>
+            <h2>📝 法律术语表</h2>
             <table>
                 <tr><th>术语</th><th>中文</th><th>释义</th></tr>
                 <tr><td>stewardship</td><td>管理职责</td><td>资产管理人的受托管理责任</td></tr>
                 <tr><td>shareholder proposal</td><td>股东提案</td><td>股东提交的供股东大会表决的建议</td></tr>
-                <tr><td>materiality</td><td>实质性/重要性</td><td>信息对投资决策的重要程度</td></tr>
+                <tr><td>materiality</td><td>实质性</td><td>信息对投资决策的重要程度</td></tr>
                 <tr><td>engagement</td><td>参与/沟通</td><td>股东与公司管理层的对话互动</td></tr>
             </table>
-
-            <h2>🎯 核心要点</h2>
-            <p>晨星数据显示，获30%以上支持率的可持续股东决议数量在2025年骤减，但平均支持率稳定在40%左右。"信息缺口"（information gap）概念是ESG信息披露诉讼的关键论点。</p>
         </div>
 
-        <!-- Article 3 -->
-        <div id="article-3" class="article-content article-tab">
+        <div id="art-3" class="article-content art-page">
             <h2>ESG 法律英语日报 #3</h2>
             <p style="color: var(--text-dim); font-size: 0.85rem;">2026-05-30</p>
-            <p>第三期ESG法律英语学习内容，持续追踪ESG法律领域最新发展。</p>
             <h2>📝 本周延伸搜索关键词</h2>
             <table>
                 <tr><th>维度</th><th>搜索关键词</th></tr>
@@ -434,8 +385,7 @@
             </table>
         </div>
 
-        <!-- Article 4 -->
-        <div id="article-4" class="article-content article-tab">
+        <div id="art-4" class="article-content art-page">
             <h2>ESG 法律英语日报 #4</h2>
             <p style="color: var(--text-dim); font-size: 0.85rem;">2026-06-04</p>
             <p>最新一期ESG法律英语学习内容。</p>
@@ -443,31 +393,31 @@
     </div>
 </div>
 
-<!-- ============ TERMS ============ -->
-<div id="tab-terms" class="tab-content">
-    <div style="padding-top: 6rem;">
+<!-- ===== PAGE: TERMS ===== -->
+<div id="page-terms" class="page">
+    <div style="padding-top: 6rem;" class="container">
         <div class="section-title"><span class="icon">📝</span> ESG 法律术语总表</div>
         <div class="article-content">
             <table>
                 <tr><th>术语</th><th>中文</th><th>释义</th></tr>
                 <tr><td>stakeholder</td><td>利益相关者</td><td>公司行为影响的各方群体</td></tr>
-                <tr><td>disclosure</td><td>信息披露</td><td>依法或自愿公开信息的行为</td></tr>
+                <tr><td>disclosure</td><td>信息披露</td><td>依法或自愿公开信息</td></tr>
                 <tr><td>compliance</td><td>合规</td><td>遵守法律法规要求</td></tr>
                 <tr><td>litigation</td><td>诉讼</td><td>通过法院解决争议的程序</td></tr>
                 <tr><td>regulatory</td><td>监管的</td><td>与监管机构相关</td></tr>
                 <tr><td>governance</td><td>治理</td><td>公司管理和控制体系</td></tr>
-                <tr><td>oversight</td><td>监督</td><td>董事会对管理层活动的监督职责</td></tr>
+                <tr><td>oversight</td><td>监督</td><td>董事会对管理层的监督职责</td></tr>
                 <tr><td>sustainability</td><td>可持续性</td><td>长期环境和社会可持续能力</td></tr>
                 <tr><td>shareholder</td><td>股东</td><td>公司股份持有者</td></tr>
-                <tr><td>proxy filings</td><td>代理投票文件</td><td>上市公司提交给SEC的股东委托书文件</td></tr>
+                <tr><td>proxy filings</td><td>代理投票文件</td><td>上市公司提交给SEC的股东委托书</td></tr>
                 <tr><td>capital exodus</td><td>资本外流</td><td>资金大规模撤离</td></tr>
                 <tr><td>divestment mandate</td><td>撤资指令</td><td>强制要求剥离特定投资</td></tr>
                 <tr><td>fiduciary</td><td>信义义务</td><td>涉及受托责任的法律场景</td></tr>
                 <tr><td>stewardship</td><td>管理职责</td><td>资产管理人的受托管理责任</td></tr>
                 <tr><td>shareholder proposal</td><td>股东提案</td><td>股东提交的供股东大会表决的建议</td></tr>
-                <tr><td>materiality</td><td>实质性/重要性</td><td>信息对投资决策的重要程度</td></tr>
+                <tr><td>materiality</td><td>实质性</td><td>信息对投资决策的重要程度</td></tr>
                 <tr><td>engagement</td><td>参与/沟通</td><td>股东与公司管理层的对话互动</td></tr>
-                <tr><td>narrative</td><td>叙事/论述</td><td>围绕特定议题的主流论点</td></tr>
+                <tr><td>narrative</td><td>叙事</td><td>围绕特定议题的主流论点</td></tr>
                 <tr><td>benchmark</td><td>基准</td><td>用于比较的参考标准</td></tr>
                 <tr><td>mandate</td><td>指令/授权</td><td>法律或政策赋予的强制要求</td></tr>
             </table>
@@ -475,27 +425,23 @@
     </div>
 </div>
 
-<!-- ============ ABOUT ============ -->
-<div id="tab-about" class="tab-content">
-    <div style="padding-top: 6rem;">
+<!-- ===== PAGE: ABOUT ===== -->
+<div id="page-about" class="page">
+    <div style="padding-top: 6rem;" class="container">
         <div class="section-title"><span class="icon">ℹ️</span> 关于本网站</div>
         <div class="article-content">
             <p><strong>ESG 法律英语学习</strong> 是一个个人学习项目，旨在通过系统性的ESG法律文献阅读和拆解，同时提升ESG法律知识和英语能力（尤其是LSAT考试所需的阅读和逻辑能力）。</p>
-
             <h2>学习目标</h2>
             <p>目标加拿大JD法学院，未来走ESG法律方向。通过每周两次的ESG法律英语学习，积累法律术语、提升长难句阅读能力、跟踪全球ESG监管动态。</p>
-
             <h2>内容来源</h2>
-            <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+            <ul>
                 <li>Harvard Law School Forum on Corporate Governance</li>
                 <li>UN PRI（联合国负责任投资原则）</li>
                 <li>London School of Economics ESG研究</li>
                 <li>SSRN ESG法律论文</li>
             </ul>
-
             <h2>更新频率</h2>
             <p>每周一、四 早8:00 自动生成新一期学习日报。</p>
-
             <h2>版权说明</h2>
             <p>本网站内容仅用于个人学习目的。原文版权归各自作者和机构所有。</p>
         </div>
@@ -508,19 +454,34 @@
 </footer>
 
 <script>
-function showTab(tab) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+function showPage(name) {
+    document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('nav a').forEach(el => el.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    document.querySelector(`nav a[onclick*="${tab}"]`).classList.add('active');
+    document.getElementById('page-' + name).classList.add('active');
+    var links = document.querySelectorAll('nav a');
+    for (var i = 0; i < links.length; i++) {
+        if (links[i].getAttribute('onclick').indexOf(name) > -1) {
+            links[i].classList.add('active');
+        }
+    }
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 function showArticle(n) {
-    document.querySelectorAll('.article-tab').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-bar .tab-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById('article-' + n).classList.add('active');
-    document.querySelector(`.tab-bar .tab-btn:nth-child(${n})`).classList.add('active');
+    document.querySelectorAll('.art-page').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('art-' + n).classList.add('active');
+    var btns = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < btns.length; i++) {
+        if (btns[i].getAttribute('onclick').indexOf(n) > -1) {
+            btns[i].classList.add('active');
+        }
+    }
+}
+
+function goToArticle(n) {
+    showPage('articles');
+    showArticle(n);
 }
 </script>
 
